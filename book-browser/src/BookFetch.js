@@ -1,14 +1,16 @@
-function bookFetch(searchTerms, key){
-  fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerms}`)
+async function bookFetch(searchTerms, key){
+  let returnValue = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerms}`)
     .then((response) => {
       return response.json();
     })
     .then((myJson) => {
-      return JSON.stringify(myJson);
+      return myJson
     })
     .catch((err) => {
-      console.log(err);
+      return err;
     })
+    
+    return returnValue;
 }
 
 export default bookFetch
