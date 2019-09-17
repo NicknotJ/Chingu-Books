@@ -34,17 +34,21 @@ class App extends React.Component {
     if(this.state.searchResult){
       let books = [];
       //Will need to handle issues where the server does not respond
-      let end = Math.min(this.state.searchResult.items.length, 10);
-      for (let x = 0; x < end; x++){
-        books.push(this.state.searchResult.items[x]);
+      if(this.state.searchResult.items){
+        let end = Math.min(this.state.searchResult.items.length, 10);
+        for (let x = 0; x < end; x++){
+          books.push(this.state.searchResult.items[x]);
+        }
+        return (
+          <ul>
+            {books.map(function(book, index){
+              return <Book props={book} key = {index} />
+            })}
+          </ul>
+          )
+      } else {
+        return <p>Google Did Not Return Any Items</p>
       }
-      return (
-        <ul>
-          {books.map(function(book, index){
-            return <Book props={book} key = {index} />
-          })}
-        </ul>
-        )
     } else {
       return <p>Your Search Results Will Display Here</p>;
     }
@@ -87,9 +91,10 @@ class App extends React.Component {
         </form>
         <section className="bookResults">
           {this.buildBooks()}
+          <button className="prev diffBooks" onClick={(e) => {this.prevBooks()}}>Prev</button>
+          <button className="next diffBooks" onClick={(e) => {this.nextBooks()}}>Next</button>
         </section>
-        <button className="prev diffBooks" onClick={(e) => {this.prevBooks()}}>Prev</button>
-        <button className="next diffBooks" onClick={(e) => {this.nextBooks()}}>Next</button>
+        
       </main>
     );
   }
