@@ -14,7 +14,7 @@ class App extends React.Component {
     //this.handleClick = this.handleClick.bind(this);
   }
   
- async onSearch(keyword, subject, title, author) {
+  async onSearch(keyword, subject, title, author) {
     let fetchValue = await bookFetch(keyword, subject, title, author, this.state.firstBook);
     //error handling?
     this.setState((state) => {
@@ -83,16 +83,24 @@ class App extends React.Component {
         <form className="searchForm" onSubmit = {(e) => {e.preventDefault(); 
                                   this.onSearch(e.currentTarget[0].value, e.currentTarget[1].value, e.currentTarget[2].value, e.currentTarget[3].value);
                                   }}>
-          <input type="text" name="Keyword" className="searchBar"/>
-          <input type="text" name="Subject" className="searchBar"/>
-          <input type="text" name="Title" className="searchBar"/>
-          <input type="text" name="Author" className="searchBar"/>
-          <input type="submit" value="Search"/>  
+          <div className="searchInputs left">
+            <label htmlFor="keyword">Keyword</label>
+            <input type="text" name="Keyword" id="keyword" className="searchBar"/>
+            <label htmlFor="subject">Subject</label>
+            <input type="text" name="Subject" id="subject" className="searchBar"/>
+          </div>
+          <div className="searchInputs right">
+            <label htmlFor="title">Title</label>
+            <input type="text" name="Title" id="title" className="searchBar"/>
+            <label htmlFor="author">Author</label>
+            <input type="text" id="author" name="Author" className="searchBar"/>
+          </div>
+          <input className="searchButton" type="submit" value="Search"/>  
         </form>
         <section className="bookResults">
           {this.buildBooks()}
-          <button className="prev diffBooks" onClick={(e) => {this.prevBooks()}}>Prev</button>
-          <button className="next diffBooks" onClick={(e) => {this.nextBooks()}}>Next</button>
+          <button className="prev diffBooks" onClick={() => {this.prevBooks()}}>Prev</button>
+          <button className="next diffBooks" onClick={() => {this.nextBooks()}}>Next</button>
         </section>
         
       </main>
