@@ -15,7 +15,7 @@ function Book(props){
     authorText = `Written By ${book.volumeInfo.authors[0]}`;
     if(book.volumeInfo.authors.length !== 1){
       for(let x = 1; x < book.volumeInfo.authors.length; x++){
-        authorText = authorText + `& ${book.volumeInfo.authors[x]}`;
+        authorText = authorText + ` & ${book.volumeInfo.authors[x]}`;
       }
     }
   }

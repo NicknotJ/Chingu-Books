@@ -15,18 +15,22 @@ class App extends React.Component {
   }
   
  async onSearch(keyword, subject, title, author) {
-    let fetchValue = await bookFetch(keyword, this.state.firstBook);
+    let fetchValue = await bookFetch(keyword, subject, title, author, this.state.firstBook);
     //error handling?
     this.setState((state) => {
       return {...state,
         searchResult: fetchValue,
         display: true,
-        searchInput: keyword
+        searchKeyword: keyword,
+        searchSubject: subject,
+        searchTitle: title,
+        searchAuthor: author
       }
     });
 
   }
   buildBooks(){
+    console.log(this.state.searchResult);
     if(this.state.searchResult){
       let books = [];
       //Will need to handle issues where the server does not respond
@@ -54,7 +58,7 @@ class App extends React.Component {
         display: true
       }
     });  
-    this.onSearch(this.state.searchInput, this.state.firstBook);
+    this.onSearch(this.state.searchKeyword, this.state.searchSubject, this.state.searchTitle, this.state.searchAuthor, this.state.firstBook);
   };
 
   async nextBooks(){
@@ -64,7 +68,7 @@ class App extends React.Component {
         display: true
       }
     });  
-    this.onSearch(this.state.searchInput, this.state.firstBook);
+    this.onSearch(this.state.searchKeyword, this.state.searchSubject, this.state.searchTitle, this.state.searchAuthor, this.state.firstBook);
   }
 
   render(){
