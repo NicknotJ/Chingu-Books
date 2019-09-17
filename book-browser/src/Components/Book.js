@@ -1,13 +1,16 @@
 import React from 'react';
+import './Book.css';
 
 function Book(props){
   let book = props.props;
-  console.log(book.volumeInfo.authors);
-  let source = book.volumeInfo.imageLinks.smallThumbnail;
-  let title = book.volumeInfo.title;
+  let bookImage;
+  book.volumeInfo.imageLinks ? bookImage = <img className="bookCover" alt="Book Cover" src={book.volumeInfo.imageLinks.smallThumbnail} /> 
+  :bookImage = <img className="bookCover" alt="Book Cover Unavailable"src="https://previews.123rf.com/images/rawpixel/rawpixel1707/rawpixel170716572/81739821-blocked-unavailable-decline-accesibility-closed.jpg" />
+  let title;
+  book.volumeInfo.title ? title = book.volumeInfo.title : title = 'Title Unavailable';
   let authorText;
   if(!book.volumeInfo.authors){
-    authorText = 'Information Unavailable'
+    authorText = 'Author Unavailable'
   } else {
     authorText = `Written By ${book.volumeInfo.authors[0]}`;
     if(book.volumeInfo.authors.length !== 1){
@@ -16,15 +19,15 @@ function Book(props){
       }
     }
   }
-  let publisher = book.volumeInfo.publisher;
+  let publisher; 
+  book.volumeInfo.publisher ? publisher = <h5>Published By {book.volumeInfo.publisher}</h5> : publisher = <h5>Publisher Unavailable</h5>
   let infoLink = book.volumeInfo.infoLink;
-  let altText = `Book Cover for ${title}`
   return (
-    <div>
+    <div className="book">
       <h3>{title}</h3>
-      <img src={source} alt={altText}/>
+      {bookImage}
       <h4>{authorText}</h4>
-      <h5>Published By {publisher}</h5>
+      {publisher}
       <p>If you would like to know more, please visit <a href={infoLink}>this google books link</a>!</p>
     </div>
   )
