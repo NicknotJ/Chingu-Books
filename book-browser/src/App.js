@@ -9,12 +9,18 @@ class App extends React.Component {
     this.state = {
       searchResult: '',
       firstBook: 0,
-      display: false
+      display: false,
+      loading: false
     };
     //this.handleClick = this.handleClick.bind(this);
   }
   
   async onSearch(keyword, subject, title, author) {
+    await this.setState((state) => {
+      return {...state,
+        loading: true
+      }
+    })
     let fetchValue = await bookFetch(keyword, subject, title, author, this.state.firstBook);
     //error handling?
     this.setState((state) => {
@@ -24,13 +30,19 @@ class App extends React.Component {
         searchKeyword: keyword,
         searchSubject: subject,
         searchTitle: title,
-        searchAuthor: author
+        searchAuthor: author,
+        loading: false
       }
     });
 
   }
+  loading(){
+    if(this.state.loading){
+        return <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--bIcIUu5D--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/t7u2rdii5u9n4zyqs2aa.jpg" alt="Loading Indicator" />
+    }
+  }
+  
   buildBooks(){
-    console.log(this.state.searchResult);
     if(this.state.searchResult){
       let books = [];
       //Will need to handle issues where the server does not respond
@@ -59,7 +71,8 @@ class App extends React.Component {
     await this.setState((state) => {
       return {...state,
         firstBook: firstBookValue,
-        display: true
+        display: true,
+        loading: true
       }
     });  
     this.onSearch(this.state.searchKeyword, this.state.searchSubject, this.state.searchTitle, this.state.searchAuthor, this.state.firstBook);
@@ -69,7 +82,8 @@ class App extends React.Component {
     await this.setState((state) => {
       return {...state,
         firstBook: state.firstBook + 10,
-        display: true
+        display: true,
+        loading: true
       }
     });  
     this.onSearch(this.state.searchKeyword, this.state.searchSubject, this.state.searchTitle, this.state.searchAuthor, this.state.firstBook);
@@ -98,6 +112,7 @@ class App extends React.Component {
           <input className="searchButton" type="submit" value="Search"/>  
         </form>
         <section className="bookResults">
+          {this.loading()}
           {this.buildBooks()}
           <button className="prev diffBooks" onClick={() => {this.prevBooks()}}>Prev</button>
           <button className="next diffBooks" onClick={() => {this.nextBooks()}}>Next</button>
