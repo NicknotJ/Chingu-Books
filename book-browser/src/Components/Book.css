@@ -1,6 +1,6 @@
 .book {
   box-sizing: border-box;
-  max-width: 50%;
+  width: 31%;
   display: inline-block;
   padding: 1%;
   margin-left: 1%;
@@ -8,22 +8,33 @@
   border: grey 1px solid;
   box-shadow: 5px 5px grey;
   margin-bottom: 1%;
+  background-color: lightgoldenrodyellow;
 }
 
 .bookCover {
-  width: 20%;
+  width: 25%;
   display: inline-block;
 }
 
 .bookInfo {
+  width: 75%;
   display: inline-block;
 }
 
-@media only screen and (max-width: 450px){
+
+@media only screen and (max-width: 600px){
     .book {
       display: block;
-      max-width: 80%;
+      width: 85%;
       margin-left: auto;
       margin-right: auto;
+      margin-bottom: 10px;
+      box-shadow: 2px 2px grey;
+    }
+    .bookCover {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 80%;
     }
 }

@@ -23,7 +23,7 @@ function Book(props){
   book.volumeInfo.publisher ? publisher = <h5>Published By {book.volumeInfo.publisher}</h5> : publisher = <h5>Publisher Unavailable</h5>
   let infoLink = book.volumeInfo.infoLink;
   return (
-    <div className="book">
+    <li className="book">
       {bookImage}
       <div className="bookInfo">
         <h3>{title}</h3>
@@ -31,7 +31,7 @@ function Book(props){
         {publisher}
         <p>If you would like to know more, please visit <a href={infoLink}>this google books link</a>!</p>
       </div>
-    </div>
+    </li>
   )
 }
 
