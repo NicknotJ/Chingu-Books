@@ -18,6 +18,13 @@
   margin: 1%;
 }
 
+label {
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 3%;
+}
+
 .searchButton {
   display: block;
   margin-left: auto;
