@@ -26,8 +26,6 @@
     .book {
       display: block;
       width: 85%;
-      margin-left: auto;
-      margin-right: auto;
       margin-bottom: 10px;
       box-shadow: 2px 2px grey;
     }

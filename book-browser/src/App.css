@@ -18,6 +18,19 @@
   margin: 1%;
 }
 
+.diffBooks, .searchButton {
+  height: 40px;
+  width: 100px;
+  font-size: 20px;
+}
+
+label {
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 2%;
+}
+
 .searchButton {
   display: block;
   margin-left: auto;
@@ -27,8 +40,10 @@
 .searchInputs {
   display: inline-block;
   margin: 1%;
+  margin-top: 0%;
 }
 
 .searchInputs > input {
   display: block;
+  margin-bottom: 2%;
 }
