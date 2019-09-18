@@ -10,7 +10,8 @@ class App extends React.Component {
       searchResult: '',
       firstBook: 0,
       display: false,
-      loading: false
+      loading: false,
+      error: false
     };
     //this.handleClick = this.handleClick.bind(this);
   }
@@ -22,16 +23,23 @@ class App extends React.Component {
       }
     })
     let fetchValue = await bookFetch(keyword, subject, title, author, this.state.firstBook);
-    //error handling?
+    let error = fetchValue.error;
+    let books;
+    if(error){
+      books = `ERROR: ${fetchValue.books.message}`;
+    } else {
+      books = fetchValue.books;
+    }
     this.setState((state) => {
       return {...state,
-        searchResult: fetchValue,
+        searchResult: books,
         display: true,
         searchKeyword: keyword,
         searchSubject: subject,
         searchTitle: title,
         searchAuthor: author,
-        loading: false
+        loading: false,
+        error
       }
     });
 
@@ -43,6 +51,9 @@ class App extends React.Component {
   }
   
   buildBooks(){
+    if(this.state.error){
+      return <p>{this.state.searchResult}</p>
+    }
     if(this.state.searchResult){
       let books = [];
       //Will need to handle issues where the server does not respond

@@ -16,7 +16,8 @@ async function bookFetch(keyword, subject, title, author, startIndex = 0){
       searchString = searchString + '+' + tempArray[x];
     }
   }
-  console.log(searchString);
+  console.log(searchString); 
+  let returnedObject = {error: false};
   let returnValue = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchString}&startIndex=${startIndex}`)
     .then((response) => {
       return response.json();
@@ -25,9 +26,11 @@ async function bookFetch(keyword, subject, title, author, startIndex = 0){
       return myJson
     })
     .catch((err) => {
+      returnedObject.error = true;
       return err;
     })
-    return returnValue;
+    returnedObject.books = returnValue;
+    return returnedObject;
 }
 
-export default bookFetch
+export default bookFetch;

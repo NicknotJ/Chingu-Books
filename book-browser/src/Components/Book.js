@@ -4,7 +4,7 @@ import './Book.css';
 function Book(props){
   let book = props.props;
   let bookImage;
-  book.volumeInfo.imageLinks ? bookImage = <img className="bookCover" alt="Book Cover" src={book.volumeInfo.imageLinks.smallThumbnail} /> 
+  book.volumeInfo.imageLinks ? bookImage = <img className="bookCover" alt="Book Cover" src={book.volumeInfo.imageLinks.thumbnail} /> 
   :bookImage = <img className="bookCover" alt="Book Cover Unavailable"src="https://previews.123rf.com/images/rawpixel/rawpixel1707/rawpixel170716572/81739821-blocked-unavailable-decline-accesibility-closed.jpg" />
   let title;
   book.volumeInfo.title ? title = book.volumeInfo.title : title = 'Title Unavailable';
@@ -24,11 +24,13 @@ function Book(props){
   let infoLink = book.volumeInfo.infoLink;
   return (
     <div className="book">
-      <h3>{title}</h3>
       {bookImage}
-      <h4>{authorText}</h4>
-      {publisher}
-      <p>If you would like to know more, please visit <a href={infoLink}>this google books link</a>!</p>
+      <div className="bookInfo">
+        <h3>{title}</h3>
+        <h4>{authorText}</h4>
+        {publisher}
+        <p>If you would like to know more, please visit <a href={infoLink}>this google books link</a>!</p>
+      </div>
     </div>
   )
 }
