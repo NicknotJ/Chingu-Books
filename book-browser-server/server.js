@@ -1,8 +1,13 @@
 const http = require('http');
+const express = require('express');
+const app = express();
 
-http.createServer((req, res) => {
-  res.write('Sup, Dawg?');
-  res.end();
-}).listen(8080);
+app.get('/', (req, res) => {
+  res.send('You accessed /. Why.');
+});
 
-console.log('The Server... is running... on port 8080');
+app.get('/pizza', (req, res) => {
+  res.send('Sup Dawg');
+});
+
+app.listen(8080);
