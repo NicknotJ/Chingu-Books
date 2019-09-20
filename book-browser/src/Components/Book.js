@@ -2,7 +2,7 @@ import React from 'react';
 import './Book.css';
 
 function Book(props){
-  let book = props.props;
+  let book = props.book;
   let bookImage;
   book.volumeInfo.imageLinks ? bookImage = <img className="bookCover" alt="Book Cover" src={book.volumeInfo.imageLinks.thumbnail} /> 
   :bookImage = <img className="bookCover" alt="Book Cover Unavailable"src="https://previews.123rf.com/images/rawpixel/rawpixel1707/rawpixel170716572/81739821-blocked-unavailable-decline-accesibility-closed.jpg" />
@@ -23,7 +23,7 @@ function Book(props){
   book.volumeInfo.publisher ? publisher = <h5>Published By {book.volumeInfo.publisher}</h5> : publisher = <h5>Publisher Unavailable</h5>
   let infoLink = book.volumeInfo.infoLink;
   return (
-    <li className="book">
+    <div>
       {bookImage}
       <div className="bookInfo">
         <h3>{title}</h3>
@@ -31,7 +31,8 @@ function Book(props){
         {publisher}
         <p>If you would like to know more, please visit <a href={infoLink}>this google books link</a>!</p>
       </div>
-    </li>
+      <button className="bookButton" onClick={() => props.onClick(book)}>Add to Favorites</button>
+    </div>
   )
 }
 
