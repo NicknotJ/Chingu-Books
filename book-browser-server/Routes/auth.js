@@ -2,14 +2,11 @@ const express = require('express');
 const auth = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const bcrypt = require('bcrypt');
 
 
 
-auth.get('/', (req, res) => {
-  res.send('You are authorized, but then again so is everyone');
-});
-
-auth.post('/:userID', jsonParser, (req, res) => {
+auth.post('/', jsonParser, (req, res) => {
   //check the user password
   let { email, password } = req.body;
   if(!email){
@@ -18,6 +15,11 @@ auth.post('/:userID', jsonParser, (req, res) => {
   if(!password){
     throw new Error('Password is required for logging in');
   }
+  //if password matches hashed password, return JWT
+  /*bcrypt.compare(password, hash, (err, res) => {
+    
+  })
+  */
   res.send('Listen, nothing is being checked at the moment');
 });
 
