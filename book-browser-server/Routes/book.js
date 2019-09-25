@@ -4,12 +4,30 @@ const book = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 //going to need to passport this up
+const Pool = require('pg').Pool;
+const pool = new Pool({
+  user: '',
+  host: 'localhost',
+  database: 'api',
+  password: '',
+  port: '5432'
+});
 
 
-book.get('/', (req, res) => {
+
+book.get('/', jsonParser, (req, res) => {
   //grab the user from the JWT token
   //grab favorites from the database
   //return favorites
+  const id = parseInt(req.body.id);
+  console.log(id);
+  pool.query('SELECT * FROM users', (error, res) => {
+    if(error){
+      throw error;
+    }
+    res.status(200).json(results);
+  })
+
 });
 
 
