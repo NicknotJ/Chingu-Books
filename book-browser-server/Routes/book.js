@@ -3,10 +3,12 @@ const book = express.Router();
 //not sure if we will need these two for this route
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-//going to need to passport this up
-const pg = require('pg');
-const conString = '';
-const client = new pg.Client(conString);
+// //going to need to passport this up
+// const pg = require('pg');
+// const conString = '';
+// const client = new pg.Client(conString);
+// const passport = require('passport');
+// const jwtAuth = passport.authenticate('jwt', {session: false});
 
 client.connect((err) => {
   if(err){
@@ -15,6 +17,18 @@ client.connect((err) => {
     console.log('I connected');
   }
 });
+
+book.get('/', jwtAuth, (req, res) => {
+  const userId = req.user.id;
+  return client.query(`SELECT * from favorites WHERE userid=${id}`, (err, result) => {
+    if(err){
+      res.send(`ERROR: ${err}`);
+    }
+    res.send(result.rows);
+  })
+})
+
+
 
 book.post('/', jsonParser, (req, res) => {
   //grab the user from the JWT token

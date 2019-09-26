@@ -12,7 +12,7 @@ const config = {JWT_EXPIRY: '100d', JWT_SECRET: 'MOREBS'};
 //probably want to pull in variables from a config type file
 const createAuthToken = (user) => {
   return jwt.sign({user}, config.JWT_SECRET, {
-    subject: user.email,
+    subject: user.id,
     expiresIn: config.JWT_EXPIRY,
     algorithm: 'HS256'
   });
@@ -37,13 +37,14 @@ auth.post('/', jsonParser, (req, res) => {
   if(!password){
     throw new Error('Password is required for logging in');
   }
-  const text = `SELECT password FROM users WHERE email=$1`;
+  const text = `SELECT * FROM users WHERE email=$1`;
   client.query(text, [email], (err, result) => {
       if(err){
         res.send(`ERROR: ${err}`);
       }
       if(result.rows[0].password === password){
-        let fakeUser = {email}
+        let fakeUser = {id: String(result.rows[0].id)}
+        console.log(fakeUser);
         res.send(createAuthToken(fakeUser));
       } else {
         res.send('ERROR: Password does not match.');
