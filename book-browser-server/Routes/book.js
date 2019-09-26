@@ -4,45 +4,43 @@ const book = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 //going to need to passport this up
-const Pool = require('pg').Pool;
-const pool = new Pool({
-  user: '',
-  host: 'localhost',
-  database: 'api',
-  password: '',
-  port: '5432'
+const pg = require('pg');
+const conString = '';
+const client = new pg.Client(conString);
+
+client.connect((err) => {
+  if(err){
+    return console.error('could not connect to postgres', err);
+  } else {
+    console.log('I connected');
+  }
 });
 
-
-
-book.get('/', jsonParser, (req, res) => {
+book.post('/', jsonParser, (req, res) => {
   //grab the user from the JWT token
   //grab favorites from the database
   //return favorites
-  const id = parseInt(req.body.id);
-  console.log(id);
-  pool.query('SELECT * FROM users', (error, res) => {
-    if(error){
-      throw error;
+  let { email, password } = req.body;
+  let userid;
+  const text = `SELECT * FROM users WHERE email=$1`;
+  client.query(text, [email], (err, result) => {
+    if(err){
+      res.send(`ERROR: ${err}`);
     }
-    res.status(200).json(results);
-  })
-
+    if(result.rows[0].password === password){
+      client.query(`SELECT * from favorites WHERE userid=${result.rows[0].id}`, (err, result) => {
+        if(err){
+          res.send(`ERROR: ${err}`);
+        }
+        res.send(result.rows);
+      })  
+    } else {
+      res.send('ERROR: Password does not match.');
+    }
+  });
 });
 
 
 module.exports = book;
 
-/*
-const jwt = require('jsonwebtoken');
-//probably want to pull in variables from a config type file
-const createAuthToken = (user) => {
-  return jwt.sign({user}, config.JWT_SECRET, {
-    subject: user.email,
-    expiresIn: config.JWT_EXPIRY,
-    algorithm: 'HS256'
-  });
-};
 
-
-*/

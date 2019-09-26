@@ -4,6 +4,17 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const bcrypt = require('bcrypt');
 const saltRounds = 10; //maybe import this from a .gitignore file (ulti envi var?)
+const pg = require('pg');
+const conString = '';
+const client = new pg.Client(conString);
+
+client.connect((err) => {
+  if(err){
+    return console.error('could not connect to postgres', err);
+  } else {
+    console.log('I connected');
+  }
+});
 
 
 
@@ -16,12 +27,18 @@ user.post('/', jsonParser, (req, res) => {
   if(!password){
     throw new Error('Users require a password');
   }
+  const text = 'INSERT INTO users(email, password) VALUES($1, $2) RETURNING *';
+  const values = [email, password];
+  client.query(text, values, (err, result) => {
+      if(err){
+        res.send(`ERROR: ${err}`);
+      }
+      res.send(result.rows[0]);
+    })
 
   //bcrypt up that password bro
-  /*bcrypt.hash(password, saltRounds, (err, hash) => {
+  //bcrypt.hash(password, saltRounds, (err, hash) => {
 
-  })*/ 
-  res.send(`New user with email:${email} and password:${password} will be created`);
 });
 
 
